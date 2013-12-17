@@ -1,4 +1,5 @@
 #!/bin/sh -x
+set -e
 DIR="w/apps/dldr.brnbw.com/current"
 UPDATE="git pull"
 BUNDLE="zsh --login -c 'bundle --deployment'"
