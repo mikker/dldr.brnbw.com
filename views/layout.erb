@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="DR">
+  <head>
+    <meta charset="UTF-8">
+    <title>DR</title>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.0.2/css/normalize.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.0.2/css/foundation.min.css" rel="stylesheet">
+    <style>
+      [ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
+      textarea { height: auto; font-family: monospace; }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <%= yield %>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    <script src="//raw.github.com/VictorBjelkholm/ngProgress/master/build/ngProgress.min.js"></script>
+    <script src="/application.js"></script>
+  </body>
+</html>
