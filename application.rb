@@ -16,8 +16,6 @@ class Application < Sinatra::Base
   end
 
   before do
-    # Database.logger = request.logger
-    # expires 500, :public, :must_revalidate
     content_type 'application/json'
   end
 
