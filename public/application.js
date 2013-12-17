@@ -34,15 +34,13 @@
 
         if (canceller) { canceller.resolve(); }
 
-        if (value === "") {
-          delete $scope.results;
-          return;
-        }
+        _.each(['results', 'uri', 'filename'], function(key) { delete $scope[key]; });
+
+        if (value === "") { return; }
 
         var path = '/search?q=' + encodeURIComponent(value);
         canceller = $q.defer();
         $scope.loading = true;
-        delete $scope.results;
         $http.get(path, { timeout: canceller.promise }).success(function(results) {
           $scope.results = results.Data;
           delete canceller;

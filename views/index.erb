@@ -12,9 +12,9 @@
       </p>
     </form>
 
-    <p ng-show="uri">
+    <div ng-show="uri">
       <textarea rows=6 select-all-on-focus>ffmpeg -i "{{ uri }}" -c copy -absf aac_adtstoasc {{ filename }}.mp4</textarea>
-    </p>
+    </div>
 
     <p class="right" ng-show="loading">
       <img src="http://media.giphy.com/media/dIw6T67vqxfCo/giphy.gif" alt="">
@@ -30,6 +30,19 @@
           </li>
         </ul>
       </li>
+    </ul>
+
+    <hr>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h4>WUT? I don't even?</h4>
+    <h5>You have a Mac:</h5>
+    <ul>
+      <li>Get <a href="http://brew.sh">homebrew</a></li>
+      <li><pre>$ brew install ffmpeg</pre></li>
     </ul>
   </section>
 </div>
