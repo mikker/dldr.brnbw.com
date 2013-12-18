@@ -38,7 +38,7 @@
 
         if (value === "") { return; }
 
-        var path = '/search?q=' + encodeURIComponent(value);
+        var path = "/proxy?path=/Bundle?Title=$like('" + encodeURIComponent(value) + "')";
         canceller = $q.defer();
         $scope.loading = true;
         $http.get(path, { timeout: canceller.promise }).success(function(results) {
@@ -50,7 +50,9 @@
     });
 
     $scope.loadProgramsFor = function(bundle) {
-      var path = "/get?path=/ProgramCard?Relations.Slug=$eq('" + bundle.Slug + "')&limit=$eq(100)";
+      if (bundle.programs) { delete bundle.programs; return; }
+
+      var path = "/proxy?path=/ProgramCard?Relations.Slug=$eq('" + bundle.Slug + "')&limit=$eq(100)";
       $scope.loading = true;
       $http.get(path).success(function(results) {
         bundle.programs = extendVideoLinks(results.Data);
@@ -58,9 +60,11 @@
       });
     };
 
-    $scope.play = function(program) {
+    $scope.play = function(program, event) {
+      event.preventDefault();
+
       $scope.loading = true;
-      $http.get('/get?path=' + program.video.Uri).success(function(links) {
+      $http.get('/proxy?path=' + program.video.Uri).success(function(links) {
         $scope.loading = false;
         var ios = _.select(links.Links, function(link) {
           if (link.Target === 'Ios') return true;

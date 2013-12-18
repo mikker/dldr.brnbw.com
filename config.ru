@@ -1,2 +1,19 @@
-require './application'
-run Application.new
+begin
+  require 'bundler'
+rescue LoadError
+  require 'rubygems'
+  require 'bundler'
+end
+
+Bundler.require(:default)
+ENVIRONMENT = (ENV['RACK_ENV'] || :development).to_sym
+
+require './lib/littlest_proxy'
+
+require 'logger'
+class ::Logger; alias_method :write, :<<; end
+LOG = Logger.new("log/#{ENVIRONMENT}.log")
+
+use Rack::CommonLogger, LOG
+
+run Rack::URLMap.new("/proxy" => LittlestProxy.new("http://www.dr.dk/mu"))
