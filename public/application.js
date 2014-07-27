@@ -66,12 +66,11 @@
       $scope.loading = true;
       $http.get('/proxy?path=' + program.video.Uri).success(function(links) {
         $scope.loading = false;
-        var ios = _.select(links.Links, function(link) {
-          if (link.Target === 'Ios') return true;
-          return false;
+        var match = _.select(links.Links, function(link) {
+          return (link.Target === 'HLS' && link.FileFormat === 'mp4');
         });
         $scope.filename = program.Slug;
-        $scope.uri = _.first(ios).Uri;
+        $scope.uri = _.first(match).Uri;
       });
     };
 

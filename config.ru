@@ -16,4 +16,5 @@ LOG = Logger.new("log/#{ENVIRONMENT}.log")
 
 use Rack::CommonLogger, LOG
 
-run Rack::URLMap.new("/proxy" => LittlestProxy.new("http://www.dr.dk/mu"))
+run Rack::URLMap.new('/' => Rack::Directory.new("public"),
+                     "/proxy" => LittlestProxy.new("http://www.dr.dk/mu"))
