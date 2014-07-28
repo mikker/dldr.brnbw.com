@@ -1,78 +1,87 @@
 (function() {
-  window.cl = function() { if (window.console && console.log) { console.log(arguments); } };
+  'use strict';
 
-  var App = angular.module("DR", []);
+  var module = angular.module("DR", ['ngRoute']);
 
-  App.directive("initialFocus", [function() {
-    return function(scope, elm, attrs) {
-      setTimeout(function() {
-        elm[0].focus();
-      }, 0);
-    };
-  }]);
+  module.config(function($routeProvider) {
+    $routeProvider.when('/', {
+      controller: 'SearchCtrl',
+      templateUrl: 'templates/search.html'
+    });
+  });
 
-  App.directive("selectAllOnFocus", [function() {
-    return function(scope, elm, attrs) {
-      elm.on('focus', function() {
-        this.setSelectionRange(0, 9999);
-      });
-    };
-  }]);
-
-  App.controller("SearchCtrl", ['$scope', '$http', '$q', '$timeout', function($scope, $http, $q, $timeout) {
+  module.controller("SearchCtrl", function($scope, $http, $location, $q, $timeout) {
 
     var canceller;
 
+    // Timeout to make it change from undefined to search.q
     $timeout(function() {
-      var hash = window.location.hash;
-      if (hash !== "") { $scope.q = hash.replace("#",""); }
+      $scope.q = $location.search().q;
     }, 0);
 
     $scope.$watch('q', function(value, oldValue) {
-      if (value !== oldValue) {
-        window.location.hash = value;
+      if (!value) return;
 
-        if (canceller) { canceller.resolve(); }
+      $location.search({q: value});
 
-        _.each(['results', 'uri', 'filename'], function(key) { delete $scope[key]; });
-
-        if (value === "") { return; }
-
-        var path = "/proxy?path=/Bundle?Title=$like('" + encodeURIComponent(value) + "')";
-        canceller = $q.defer();
-        $scope.loading = true;
-        $http.get(path, { timeout: canceller.promise }).success(function(results) {
-          $scope.results = results.Data;
-          delete canceller;
-          $scope.loading = false;
-        });
-      }
+      getBundle($scope.q).then(function(bundle) {
+        $scope.results = bundle;
+      });
     });
 
     $scope.loadProgramsFor = function(bundle) {
-      if (bundle.programs) { delete bundle.programs; return; }
-
-      var path = "/proxy?path=/ProgramCard?Relations.Slug=$eq('" + bundle.Slug + "')&limit=$eq(100)";
-      $scope.loading = true;
-      $http.get(path).success(function(results) {
-        bundle.programs = extendVideoLinks(results.Data);
-        $scope.loading = false;
+      getPrograms(bundle).then(function(programs) {
+        bundle.programs = extendVideoLinks(programs);
       });
     };
 
-    $scope.play = function(program, event) {
+    $scope.getPlaylistFor = function(program, event) {
       event.preventDefault();
 
-      $scope.loading = true;
-      $http.get('/proxy?path=' + program.video.Uri).success(function(links) {
-        $scope.loading = false;
-        var match = _.select(links.Links, function(link) {
-          return (link.Target === 'HLS' && link.FileFormat === 'mp4');
-        });
-        $scope.filename = program.Slug;
-        $scope.uri = _.first(match).Uri;
+      getPlaylist(program).then(function(playlist) {
+        $scope.file = {
+          filename: program.Slug,
+          uri: playlist
+        };
       });
     };
+
+    function getBundle(q) {
+      if (canceller) canceller.resolve();
+
+      if (q === '') return;
+
+      $scope.loading = true;
+      canceller = $q.defer();
+
+      var path = "/proxy?path=/Bundle?Title=$like('" +
+        encodeURIComponent(q) + "')";
+      return $http.get(path, { timeout: canceller.promise }).then(function(resp) {
+        $scope.loading = false;
+        canceller = undefined;
+        return resp.data.Data;
+      });
+    }
+
+    function getPrograms(bundle) {
+      $scope.loading = true;
+      var path = "/proxy?path=/ProgramCard?Relations.Slug=$eq('" + bundle.Slug + "')&limit=$eq(100)";
+      return $http.get(path).then(function(resp) {
+        $scope.loading = false;
+        return resp.data.Data;
+      });
+    }
+
+    function getPlaylist(program) {
+      $scope.loading = true;
+      return $http.get('/proxy?path=' + program.video.Uri).then(function(resp) {
+        $scope.loading = false;
+        var match = _.select(resp.data.Links, function(link) {
+          return (link.Target === 'HLS' && link.FileFormat === 'mp4');
+        });
+        return _.first(match).Uri;
+      });
+    }
 
     function extendVideoLinks(programs) {
       _.each(programs, function(program) {
@@ -86,7 +95,26 @@
       return programs;
     }
 
-  }]);
+  });
 
-  window.App = App;
+  module.directive("initialFocus", function($timeout) {
+    return function(scope, elm, attrs) {
+      document.addEventListener('DOMLoaded', function() {
+        elm[0].focus();
+        elm[0].setSelectionRange(0, 9999);
+      });
+    };
+  });
+
+  module.directive('selectAllOnFocus', function($timeout) {
+    return function(scope, elm, attrs) {
+      elm.on('focus', function(event) {
+        $timeout(function() {
+          elm[0].setSelectionRange(0, 9999);
+        }, 0);
+      });
+    };
+  });
+
+  window.module = module;
 })();

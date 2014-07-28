@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'uri'
 
 class LittlestProxy
 
@@ -12,7 +13,7 @@ class LittlestProxy
     req = Rack::Request.new(env)
     path = req.params['path']
     path = base + path if path.start_with?("/")
-    resp = open(path).read
+    resp = open(URI.escape path).read
     [200, {"Content-type" => "text/plain"}, [resp]]
   end
 
