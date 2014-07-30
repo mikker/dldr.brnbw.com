@@ -1,14 +1,7 @@
 (function() {
   'use strict';
 
-  var module = angular.module("DR", ['ngRoute']);
-
-  module.config(function($routeProvider) {
-    $routeProvider.when('/', {
-      controller: 'SearchCtrl',
-      templateUrl: 'templates/search.html'
-    });
-  });
+  var module = angular.module("dldr", []);
 
   module.controller("SearchCtrl", function($scope, $http, $location, $q, $timeout) {
 
@@ -16,13 +9,15 @@
 
     // Timeout to make it change from undefined to search.q
     $timeout(function() {
-      $scope.q = $location.search().q;
+      $scope.q = $location.hash();
     }, 0);
 
     $scope.$watch('q', function(value, oldValue) {
-      if (!value) return;
+      if (typeof value === undefined) return;
 
-      $location.search({q: value});
+      $location.hash(value);
+
+      if (value === '') return;
 
       getBundle($scope.q).then(function(bundle) {
         $scope.results = bundle;
@@ -94,16 +89,6 @@
       });
       return programs;
     }
-
-  });
-
-  module.directive("initialFocus", function($timeout) {
-    return function(scope, elm, attrs) {
-      document.addEventListener('DOMLoaded', function() {
-        elm[0].focus();
-        elm[0].setSelectionRange(0, 9999);
-      });
-    };
   });
 
   module.directive('selectAllOnFocus', function($timeout) {
