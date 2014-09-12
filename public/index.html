@@ -16,19 +16,17 @@
     <div class="row">
       <div class="large-8 columns large-centered">
         <br><br>
-        <div class="text-center">
-          <h3><img src="http://media.giphy.com/media/eiXyT4rdMPgKk/giphy.gif"></h3>
-          <h5 class="subheader">It's a DR command-line downloader!</h5>
-        </div>
-
         <form>
           <p>
             <input type="text" ng-model="q" autofocus>
           </p>
         </form>
 
-        <div ng-show="file">
-          <textarea rows=6 select-all-on-focus>ffmpeg -i "{{ file.uri }}" -c copy -absf aac_adtstoasc {{ file.filename }}.mp4</textarea>
+        <div ng-show="links">
+          <img ng-src='{{ imageUrl }}' width=320>
+          <ul>
+            <li ng-repeat='link in links'><a href="{{ link.Uri }}">{{ link.Bitrate }}</a></li>
+          </ul>
         </div>
 
         <p class="right" ng-show="loading">
@@ -37,7 +35,7 @@
 
         <ul>
           <li ng-repeat="result in results">
-            <a href="" ng-click="loadProgramsFor(result)">{{ result.Title }}</a>
+            <a href="" ng-click="loadProgramsFor(result, $event)">{{ result.Title }}</a>
             <ul ng-show="result.programs">
               <li ng-repeat="program in result.programs">
                 <a href="{{ program.Uri }}" ng-show="program.video" ng-click="getPlaylistFor(program, $event)">{{ program.Title }}</a>
