@@ -15,6 +15,7 @@ class ::Logger; alias_method :write, :<<; end
 LOG = Logger.new("log/#{ENVIRONMENT}.log")
 
 use Rack::CommonLogger, LOG
+use Rack::Static, :urls => { '/' => 'index.html' }
 
 run Rack::URLMap.new('/' => Rack::Directory.new("public"),
                      "/proxy" => LittlestProxy.new("http://www.dr.dk/mu"))
