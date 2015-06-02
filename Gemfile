@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '2.1.4'
+ruby '2.2.2'
 
 gem 'rack'
-gem 'unicorn'
-gem 'foreman'
+gem 'unicorn', group: :production
 
