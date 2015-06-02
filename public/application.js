@@ -73,6 +73,8 @@
         }).valueOf().Uri;
       } catch(e) {}
       return $http.get('/proxy?path=' + program.video.Uri).then(function(resp) {
+        console.log(resp.data.Links)
+        $scope.debug = resp.data.Links
         $scope.loading = false;
         return _.select(resp.data.Links, function(link) {
           return (link.Target === 'Download' && link.FileFormat === 'mp4');

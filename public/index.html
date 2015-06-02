@@ -27,6 +27,7 @@
           <ul>
             <li ng-repeat='link in links'><a href="{{ link.Uri }}">{{ link.Bitrate }}</a></li>
           </ul>
+          <pre ng-show='debug'>{{ debug }}</pre>
         </div>
 
         <p class="right" ng-show="loading">
