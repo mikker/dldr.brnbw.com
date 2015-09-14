@@ -1,0 +1,43 @@
+{
+  "name": "hothothot",
+  "version": "0.1.0",
+  "description": "YART",
+  "scripts": {
+    "start": "NODE_ENV=development node server.js",
+    "build": "NODE_ENV=production webpack --color --progress -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikker/hothothot.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Mikkel Malmberg <mikkel@brnbw.com> (http://github.com/mikker)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikker/hothothot/issues"
+  },
+  "homepage": "https://github.com/mikker/hothothot",
+  "devDependencies": {
+    "babel-loader": "^5.0.0",
+    "css-loader": "^0.18.0",
+    "node-sass": "^3.1.2",
+    "null-loader": "^0.1.1",
+    "react-hot-loader": "^1.2.2",
+    "sass-loader": "^2.0.1",
+    "style-loader": "^0.12.0",
+    "webpack": "^1.8.11",
+    "webpack-dev-server": "^1.7.0"
+  },
+  "dependencies": {
+    "babel": "^5.1.13",
+    "exports-loader": "^0.6.2",
+    "imports-loader": "^0.6.4",
+    "react": "^0.13.0",
+    "react-redux": "^2.1.2",
+    "redux": "^3.0.0",
+    "redux-thunk": "^0.1.0",
+    "whatwg-fetch": "^0.9.0"
+  }
+}
