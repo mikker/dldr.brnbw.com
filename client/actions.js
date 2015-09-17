@@ -1,4 +1,3 @@
-const {fetch, alert} = window
 const drTvRegex = /https?:\/\/(www\.)?dr.dk\/tv\//
 
 export function setUrl (url) {
@@ -10,11 +9,11 @@ export function getProgramCard () {
     const {url, slug} = getState()
 
     if (!url) {
-      alert('No URL specified')
+      window.alert('No URL specified')
       return
     }
     if (!url.match(drTvRegex)) {
-      alert('URL doesn\'t seem to be from DR TV?')
+      window.alert('URL doesn\'t seem to be from DR TV?')
       return
     }
 
@@ -30,7 +29,7 @@ export function setProgramCard (programCard) {
 
 function fetchCard (slug) {
   const url = proxy(`http://www.dr.dk/mu/programcard/expanded?id=${slug}`)
-  return fetch(url).then(resp => resp.json())
+  return window.fetch(url).then(resp => resp.json())
 }
 
 function proxy (url) {

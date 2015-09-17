@@ -1,0 +1,16 @@
+#!/bin/bash -x
+set -e
+
+# config
+host=root@brnbw.com
+dir="/var/www/dldr.brnbw.com/public"
+dest=build
+
+# prepare
+mkdir -p $dest
+npm run build
+cp index.html $dest
+
+# transfer
+ssh $host "mkdir -p $dir" && rsync -ruv --no-perms $dest/* $host:$dir
+
