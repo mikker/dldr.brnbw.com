@@ -13,9 +13,6 @@ var plugins = [
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     __DEV: env.development
-  }),
-  new webpack.ProvidePlugin({
-    'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
   })
 ]
 var loaders = ['babel']
