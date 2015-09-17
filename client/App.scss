@@ -1,0 +1,42 @@
+@import 'normalize.scss/normalize';
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 2em;
+  line-height: 1.5em;
+}
+
+#App {
+  width: 100%;
+  max-width: 800px;
+
+  margin: 0 auto;
+
+  input, textarea {
+    width: 100%;
+  }
+
+  input[type='text'] {
+    font-size: 1.2em;
+  }
+
+  textarea {
+    font-family: 'Menlo', monospace;
+    font-size: .8em;
+    line-height: 1;
+  }
+}
+
+.bookmarklet {
+  display: inline-block;
+  background: #eee;
+  padding: 2px 12px;
+  border-radius: 999px;
+  color: #555;
+  text-shadow: rgba(#fff, .9) 0 1px 0;
+  font-weight: bold;
+  text-decoration: none;
+}

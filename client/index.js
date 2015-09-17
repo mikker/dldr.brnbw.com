@@ -4,27 +4,15 @@ import App from './App'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { getProgramCard } from './actions'
-
-const initialState = {
-  url: window.location.search.replace(/^\?/, '')
-}
-
-function reducer (state = initialState, action) {
-  switch (action.type) {
-    case 'SET_URL':
-      return { ...state, url: action.url }
-    case 'SET_PROGRAM_CARD':
-      return { ...state, program_card: action.program_card }
-    default:
-      return state
-  }
-}
+import { setUrl, getProgramCard } from './actions'
+import * as reducers from './reducer'
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
-const store = createStoreWithMiddleware(reducer)
+const store = createStoreWithMiddleware(reducers.stateReducer)
 
-store.subscribe(() => console.log(store.getState()))
+if (__DEV) { // eslint-disable-line
+  store.subscribe(() => console.log(store.getState()))
+}
 
 React.render(
   <Provider store={store}>
@@ -33,8 +21,10 @@ React.render(
 )
 
 document.addEventListener('DOMContentLoaded', () => {
-  const url = store.getState().url
-  if (url) {
+  const search = window.location.search.replace(/^\?/, '')
+  if (search) {
+    store.dispatch(setUrl(search))
     store.dispatch(getProgramCard())
   }
 })
+

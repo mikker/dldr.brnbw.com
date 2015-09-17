@@ -11,6 +11,9 @@ var env = {
 var index = './client/index'
 var plugins = [
   new webpack.NoErrorsPlugin(),
+  new webpack.DefinePlugin({
+    __DEV: env.development
+  }),
   new webpack.ProvidePlugin({
     'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
   })
@@ -42,7 +45,8 @@ var config = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loaders: loaders, include: path.join(__dirname, 'client') }
+      { test: /\.jsx?$/, loaders: loaders, include: path.join(__dirname, 'client') },
+      { test: /\.s?css?$/, loader: 'style!css!sass?includePaths[]=./node_modules!autoprefixer' }
     ]
   }
 }

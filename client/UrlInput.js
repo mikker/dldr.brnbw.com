@@ -1,6 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { setUrl, getProgramCard } from './actions'
 
-export default class UrlInput extends React.Component {
+class UrlInput extends React.Component {
+
   static get propTypes () {
     return {
       url: React.PropTypes.string,
@@ -8,9 +11,11 @@ export default class UrlInput extends React.Component {
       onEnter: React.PropTypes.func
     }
   }
+
   render () {
     const onChange = event => {
-      this.props.setUrl(event.currentTarget.value)
+      const url = event.currentTarget.value
+      this.props.setUrl(url)
     }
     const onKeyUp = event => {
       if (event.keyCode === 13) {
@@ -18,8 +23,23 @@ export default class UrlInput extends React.Component {
       }
     }
     return (
-      <input type='text' placeholder='url' value={this.props.url} onChange={onChange} onKeyUp={onKeyUp} />
+      <div>
+        <input type='text' placeholder='url' value={this.props.url} onChange={onChange} onKeyUp={onKeyUp} />
+      </div>
     )
   }
 }
+
+export default connect(state => {
+  return { ...state }
+}, dispatch => {
+  return {
+    setUrl: url => {
+      dispatch(setUrl(url))
+    },
+    onEnter: _ => {
+      dispatch(getProgramCard())
+    }
+  }
+})(UrlInput)
 
