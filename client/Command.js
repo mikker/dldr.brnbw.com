@@ -9,7 +9,7 @@ export default class Command extends Component {
   }
   render () {
     if (!this.props.programCard) {
-      return <p></p>
+      return <textarea readOnly value={''} rows={9} />
     }
 
     const uri = findMedia(this.props.programCard)
