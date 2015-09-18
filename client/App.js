@@ -47,6 +47,8 @@ class App extends Component {
           <li><strong>It's kind of like if your VCR could record in Fast-Forward mode.</strong></li>
           <li>Now go grab some of your <a href='http://dr.dk/bagedyst'>favourite shows</a> and watch them on a plane or whatever.</li>
         </ul>
+        <h3>Source</h3>
+        <p>This tool is <a href='http://github.com/mikker/dldr.brnbw.com'>open source</a>.</p>
       </div>
     )
   }
