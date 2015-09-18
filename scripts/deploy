@@ -9,7 +9,7 @@ dest=build
 # prepare
 mkdir -p $dest
 npm run build
-cp index.html $dest
+cp index.html favicon.ico $dest
 
 # transfer
 ssh $host "mkdir -p $dir" && rsync -ruv --no-perms $dest/* $host:$dir
