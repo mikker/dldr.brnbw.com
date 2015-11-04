@@ -1,9 +1,10 @@
 require('babel/polyfill')
 import React from 'react'
-import App from './App'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+
+import App from './App'
 import { setUrl, getProgramCard } from './actions'
 import * as reducers from './reducer'
 

@@ -18,6 +18,7 @@ export function getProgramCard () {
     }
 
     fetchCard(slug).then(card => {
+      console.log('card', card)
       dispatch(setProgramCard(card))
     })
   }
