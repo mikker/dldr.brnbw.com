@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import UrlInput from './UrlInput'
 import Command from './Command'
+import UsePrettyFileNameCheckbox from './UsePrettyFileNameCheckbox'
 import { connect } from 'react-redux'
 import bookmarklet from './bookmarklet'
 
@@ -11,7 +12,8 @@ class App extends Component {
   static get propTypes () {
     return {
       programCard: PropTypes.object,
-      slug: PropTypes.string
+      slug: PropTypes.string,
+      usePrettyFileName: PropTypes.bool
     }
   }
 
@@ -34,8 +36,11 @@ class App extends Component {
             </ul>
           </li>
           <li>
+            <UsePrettyFileNameCheckbox /> Use pretty file name? E.g. "Huset På Christianshavn (1)" instead of "huset-pa-christianshavn-1"
+          </li>
+          <li>
             Run this command in your terminal:
-            <Command programCard={this.props.programCard} />
+            <Command programCard={this.props.programCard} usePrettyFileName={this.props.usePrettyFileName} />
           </li>
         </ol>
         <h3>Explanation</h3>
@@ -58,6 +63,7 @@ class App extends Component {
 export default connect(state => {
   return {
     programCard: state.programCard,
-    slug: state.slug
+    slug: state.slug,
+    usePrettyFileName: state.usePrettyFileName
   }
 })(App)

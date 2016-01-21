@@ -27,6 +27,10 @@ export function setProgramCard (programCard) {
   return { type: 'SET_PROGRAM_CARD', programCard }
 }
 
+export function setUsePrettyFileName (usePrettyFileName) {
+  return { type: 'SET_PRETTY_PROGRAM_NAME', usePrettyFileName }
+}
+
 function fetchCard (slug) {
   const url = proxy(`http://www.dr.dk/mu/programcard/expanded?id=${slug}`)
   return window.fetch(url).then(resp => resp.json())

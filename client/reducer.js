@@ -3,7 +3,8 @@ import { extractSlugFromUrl } from './utils'
 const initialState = {
   url: undefined,
   slug: undefined,
-  programCard: undefined
+  programCard: undefined,
+  usePrettyFileName: false
 }
 
 export function stateReducer (state = initialState, action) {
@@ -18,6 +19,11 @@ export function stateReducer (state = initialState, action) {
       return {
         ...state,
         programCard: action.programCard
+      }
+    case 'SET_PRETTY_PROGRAM_NAME':
+      return {
+        ...state,
+        usePrettyFileName: action.usePrettyFileName
       }
     default:
       return state
