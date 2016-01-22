@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { findMedia, findSlug } from './utils'
+import { findMedia, findSlug, findProgramName } from './utils'
 
 export default class Command extends Component {
   static get propTypes () {
@@ -8,19 +8,23 @@ export default class Command extends Component {
     }
   }
   render () {
-    if (!this.props.programCard) {
+    const { programCard } = this.props
+
+    if (!programCard) {
       return <textarea readOnly value={''} rows={9} />
     }
 
-    const slug = findSlug(this.props.programCard)
-    const uri = findMedia(this.props.programCard)
+    const uri = findMedia(programCard)
 
     if (!uri) {
       return <p><strong>No asset available.</strong></p>
     }
 
+    const slug = findSlug(programCard)
+    const fileName = findProgramName(programCard) || slug
+
     return (
-      <textarea readOnly value={`ffmpeg -i "${uri}" -c copy -absf aac_adtstoasc ${slug}.mp4`} rows={9} />
+      <textarea readOnly value={`ffmpeg -i "${uri}" -c copy -absf aac_adtstoasc "${fileName}.mp4"`} rows={9} />
     )
   }
 }

@@ -26,6 +26,16 @@ export function findSlug (programCard) {
   }
 }
 
+export function findProgramName (programCard) {
+  if (!programCard) return
+
+  try {
+    return programCard['Data'][0]['Title']
+  } catch(e) {
+    console.log(e)
+  }
+}
+
 export function extractSlugFromUrl (url) {
   // Handle URLs ending with a slash by removing the slash if it exists
   if (url.substring(url.length - 1) == '/') {
